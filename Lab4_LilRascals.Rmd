@@ -5,26 +5,34 @@ date: "February 7, 2019"
 output: html_document
 ---
 
-```{r}
-library(tidyverse)
-babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
-babies <- rename(babies, bwtoz = `bwt/oz`) #renaming `bwt/oz` because the "/" sign requires special care
-```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+library(cowplot)
+library(stringr)
+library(gapminder)
+babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
+babies <- rename(babies, bwtoz = `bwt/oz`) #renaming `bwt/oz` because the "/" sign requires special care
 ```
 ### Questions/Importance:
-# 1) How does smoking affect the number of premature babies are born
+# 1) How does smoking affect the number of premature babies that are born?
 This question is very important because it can point to whether or not smoking affects newborns, and if it does, how drastically to affects them. If our findings can give strong evidence toward smoking causing an increased chance of a premature baby, then we could argue that smoking puts the life of your baby at a much higher risk of death. Then we can also use it to advise against smoking during pregnancy.
 
-# 2) What is the relationship between babies weight and whether the mother smokes accounting for a mother's weight during the pregnancy. 
+# 2) What is the relationship between babies weight and whether the mother smokes accounting for a mother's weight during the pregnancy?
 This is an interesting question because the answer could help us to find a better understand of how smoking during pregnancy impacts one's child. This is important because knowing this may help to discourage people from continuing to smoke or starting smoking, and encourage those who want to improve their babies well-being. Especially, in regards to mothers and how it impacts their children.
 
 
 
 ### Team Plots:
 ```{r}
+babies1 <- babies %>% filter(Premature=="1")
+ggplot(data = babies1) + 
+  geom_jitter(mapping = aes(x = mpregwt, y = bwtoz))+
+  geom_smooth(mapping = aes(x = mpregwt, y = bwtoz))+
+  ggtitle("Mothers Weight vs. Child's Weight for Premature")
 ggplot(data = babies) +
     geom_bar(mapping=aes(x=number, fill = as.factor(Premature)),position = "dodge") + 
     ggtitle("Number of Births vs. Number of Cigarettes Smoked Per Day") +
