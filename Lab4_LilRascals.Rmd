@@ -52,12 +52,13 @@ ggplot(data = babies) +
 
 ### Our Findings:
 1) Our findings were that generally the population of women who smoked the most had the fewest babies, and that the proportion of premature to mature born babies was roughly the same for women who didn't smoke and women who smoked multiple cigarettes a day historically. 
+By adding a plot after filtering only the premature babies, we were able to see the birthweight vs. the mother's birthweight for prematurely born babies and see that it is generally upward sloping. 
 
 2) Our team saw that from our plot that women who had a heigher pregnancy weight, had babies with a higher weight which makes sense. Also, we can tell from this plot that babies with mothers who smoked were less likely to have a higher weight and more likely to be a lower weight. Therefore, this could indicate that babies of mothers who smoke are generally less healthy. 
 
 ### Our Conclusions:
 1) The data shows that women who smoked more cigarettes did have a larger proportion of premature babies, although women who smoked more in general had fewer babies overall.  
-
+Also, we could see that of the premature babies, the birthweight was likely to be higher if the mother's birthweight was higher. 
 2) The data shows that smoking of a mother, leads to a less normal baby weight. This could mean that these babies are less healthy or are more likely to be underweight. 
 
 ### Our Reccomendations: 
@@ -71,8 +72,13 @@ ggplot(data = babies) +
 
 ```{r}
 
-
-ggplot(data = babies) + 
+babies3 <- babies %>% filter(smoke > 0)
+a <-mean(babies3$bwtoz)
+b <- mean(babies$bwtoz)
+c <- sd(babies3$bwtoz)
+zscore <- (a-b)/c
+zscore
+ggplot(data = babies3) + 
   geom_point(mapping = aes(x = number, y = bwtoz, color = smoke))+
   xlab("Number of Cigarettes Smoked") + 
   ylab("Weight of Baby")
@@ -81,6 +87,8 @@ ggplot(data = babies) +
 Kelsey's Question: How does whether a mother smokes affect her child's birthweight?
 
 Kelsey's Findings: I found that there is very little relationship between how many cigarettes smoked a day and a babies birthweight. I found that there are more higher weighted babies as outliers if the mother doesn't smoke.
+I took the weight of babies with mothers who smoked and then the rest of the population and compared them. I found that the probability of the variation by chance was like 80%, therefore, we cannot reject the probability that the means differ by chance alone. So our results are not statistically significant. 
+I was able to apply filtering and testing through a difference of means test!
 
 
 #### James' Plot 
@@ -135,6 +143,8 @@ Shreeya's Findings: The vertical black line represents the mean of the race dist
 ### Team Summary
 
 * I, Kelsey McKenna, created a plot that showed the relationship between the number of cigarettes smoked per day and the child's birthweight. I thought this was an important question and I had predicted that the more a mother smoked, the worse her health and the lower the birthweight of the child. It is clearly not the case and there is little relationship between the two. I used the geom_point function. I added a color function with the variable smoke to highlight if the mother said she smoked or not. I found that there are more higher weighted babies as outliers if the mother doesn't smoke. I added labels to make the plot easier to read. I also created the team plot number 1 and the question and analysis for our first team plot. 
+
+I was able to modify my work, by making a better plot for the team one and filtering out certain values for whether a mother smoked at all. Doing showed showed that our results were inconclusive and not statistically significant. Therefore, we can not decide that a women smoking impacts their babies birthweight. More tests would need to be done.  
 
 * I, Shreeya Basrur,created a density plot to analyse the distribution of race demographics for mothers in this study. I filled in the density plot yellow for visibility, and added the mean line to clarify the general density plot. I also added axis titles as well as an informative title to be easier to read. This plot was created with the geom_density function with aesthetic modifiers that filled in the plot yellow and added the dashed line. Geom_vline was the function I used to create the mean line for this plot. I also created team plot two in order to answer our second question. 
 
