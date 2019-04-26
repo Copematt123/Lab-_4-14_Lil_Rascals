@@ -14,25 +14,7 @@ library(tidyverse)
 babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
 babies <- rename(babies, bwtoz = `bwt/oz`)
 ```
----
-title: "Lab4_LilRascals"
-authors: "Matthew Copeland, Kelsey McKenna, James Burke, Shreeya Basrur"
-date: "February 7, 2019"
-output: html_document
----
 
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-library(tidyverse)
-library(dplyr)
-library(ggplot2)
-library(cowplot)
-library(stringr)
-library(gapminder)
-babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
-babies <- rename(babies, bwtoz = `bwt/oz`) #renaming `bwt/oz` because the "/" sign requires special care
-```
 ### Questions/Importance:
 # 1) How does smoking affect the number of premature babies that are born?
 This question is very important because it can point to whether or not smoking affects newborns, and if it does, how drastically to affects them. If our findings can give strong evidence toward smoking causing an increased chance of a premature baby, then we could argue that smoking puts the life of your baby at a much higher risk of death. Then we can also use it to advise against smoking during pregnancy.
@@ -57,8 +39,6 @@ ggplot(data = babies) +
     scale_fill_discrete(name = "             Premature births 
 (0 = not premature, 1 = premature)")
 ```
-
-
 
 ```{r}
 ggplot(data = babies) + 
@@ -108,6 +88,10 @@ I was able to apply filtering and testing through a difference of means test!
 
 
 #### James' Plot 
+
+James' Question: Does income affect the proportion of those who smoke, and those who do not smoke?
+
+
 ```{r}
 library(tidyverse)
 babies <- read_csv("https://raw.githubusercontent.com/ervance1/Sp2018-Data-Science-repo/master/babies2a.dat")
@@ -119,34 +103,35 @@ ggplot(data = babies) +
 NA = smoked before)")
 
 ```
-James' Question: Does income affect the proportion of those who smoke, and those who do not smoke?
+
 
 James' Findings: I found that for the most part a families income does not affect whether or not they smoke. For most income groups the proportion of people who never smoke is greater than that of the proportion of people who smoke.
 
 
 #### Matthew's Individual
 
+Matt's Question: How does a longer gestation period affect the baby?
+
 ```{r}
-LM <- lm(bwtoz ~ parit, data = babies)
+LM <- lm(bwtoz ~ gestation, data = babies)
 summary(LM)
 coef(LM)
 
 ggplot(data = babies,aes(y = bwtoz, x = gestation))+
-  geom_jitter(aes(color = marital),na.rm = TRUE)+
+  geom_jitter(na.rm = TRUE)+
   geom_smooth(method = "lm", na.rm = TRUE, color = "red")+
   xlab("Gestation in Days")+
   ylab("Baby Weight in Oz")+
-  ggtitle("Babies Weights V.S. The Gestation period\nand the Linear Model that Shows the Trend")+
-  guides(color=guide_legend("Marrige Status of Mother"))
+  ggtitle("Babies Weights V.S. The Gestation period\nand the Linear Model that Shows the Trend")
 ```
 
-```
-Matt's Question: Does a mother having more previous babies affect the other babies after that first one?
-
-Matt's Findings: After looking at the data, babies are born at an average weight by the mothers first couple but as the mother has more babies then the data scatters out and becomes unpredictable. 
+Matt's Findings: I found with plotting the gestation time and babies birthweight on a scatter plot that there wasn't much to determine from it. But with the red line representing the linear model, it is easy to see the relationship between baby weight and gestation period. The line indicates that with more time in the womb of the mother the bigger the baby will be.  
+Looking at the summary of the linear model, there is a very high degree of freedom being 1026 degrees which is exceptionally high. Due to the large sample size we were given with this data set the high degree of freedom means that we can reject the null hypothesis of the data and are more likely to find a strong mean for the data points. 
 
 
 #### Shreeya's PLot
+
+Shreeya's Question: What is the distribution of race in the data?
 
 ```{r}
 ggplot(data = babies) +
@@ -156,7 +141,6 @@ ggplot(data = babies) +
     xlab("Mother's Race(1-5 is white, 6 = mexican, 7 = black, 8 = asian, 9 = mixed)") +
     ylab("Density")
 ```
-Shreeya's Question: What is the distribution of race in the data?
 
 Shreeya's Findings: The vertical black line represents the mean of the race distribution among mothers. This graph shows that a large portion of the participants in this study were white, which could be a confounding variable for the main question. 
 
@@ -171,7 +155,7 @@ I was able to modify my work, by making a better plot for the team one and filte
 
 * I, James Burke, wrote the first question (smoking vs premature babies) and its importance in warning mothers of the affect smoking can have on their newborns. I also helped to create and format the Number of Births vs. Number of Cigarettes Smoked Per Day plot. For my individual plot I created a bar chart that compares the proportion of smokers vs non smokers, to they income grouping. I made incomne the x axis and then had separate bars in each income grouping, for peoples smoking status. Having these bars side by side makes it easy to visualize the proportion. I did this using the fill aestetic and by making the smokers variable a factor, then I used position dodge to separate the bars. I also changed the x axis label along with the legend title.
 
-* I, Matthew Copeland, created a graph looking at the effects of having more babies on the baby more than the mother. This can help show that the toll of giving birth can affect the mother but can affect previous babies as well. I created a scatter plot graph where the x-axis is the number of previous pregnancies and the y-axis to be weight of baby at birth. The color legend is based of the marital status of the family.
+* I, Matthew Copeland, created a graph looking at the gestation period compared to the baby birth weight. I first added the scatter plot and then the linear relationship between the two. In my mind i figured it could be more of a clear relationship with the scatter plot but the data showed other wise. I also added the summary of the linear model give some extra data to look at. 
 
 
 
