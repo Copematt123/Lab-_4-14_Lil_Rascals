@@ -131,18 +131,26 @@ Looking at the summary of the linear model, there is a very high degree of freed
 
 #### Shreeya's PLot
 
-Shreeya's Question: What is the distribution of race in the data?
+Shreeya's Question: Does the mother's age affect gestation period?
 
 ```{r}
+babies_young_mothers<- babies %>% filter(mage <= 25)
+babies_old_mothers<- babies %>% filter(mage >= 30)
+#View(babies2)
+babysim_mod <- lm(gestation ~ mage, data = babies)
+grid <- babies %>% 
+  data_grid(mage) 
+grid <- grid %>% 
+  add_predictions(babysim_mod) 
 ggplot(data = babies) +
-  geom_density(mapping=aes(x=mrace), fill = "yellow", linetype="dashed", size=1) +
-  geom_vline(aes(xintercept=mean(mrace)))+
-  ggtitle("Density of Race Among Mothers") +
-    xlab("Mother's Race(1-5 is white, 6 = mexican, 7 = black, 8 = asian, 9 = mixed)") +
-    ylab("Density")
+    geom_point(mapping=aes(x=mage, y =gestation)) + 
+    geom_line(aes(y = pred, x = mage), data = grid, colour = "red", size = 1)+
+    ggtitle("Does the Mother's Age affect the Gestation Period?") +
+    xlab("Mother's Age") +
+    ylab("Gestation Period")
 ```
 
-Shreeya's Findings: The vertical black line represents the mean of the race distribution among mothers. This graph shows that a large portion of the participants in this study were white, which could be a confounding variable for the main question. 
+Shreeya's Findings: This question is important to possibly eliminate a confounding factor to the question "Does smoking affect babies gestation periods?" My findings were that mother's age doesn't impact gestation period, thus eliminating a confounding variable. Looking at the linear model fit to this graph, it reinforces there is no trend between these variables. I used simple modeling tools to create all the parts of this plot.
 
 
 ### Team Summary
@@ -151,7 +159,7 @@ Shreeya's Findings: The vertical black line represents the mean of the race dist
 
 I was able to modify my work, by making a better plot for the team one and filtering out certain values for whether a mother smoked at all. Doing showed showed that our results were inconclusive and not statistically significant. Therefore, we can not decide that a women smoking impacts their babies birthweight. More tests would need to be done.  
 
-* I, Shreeya Basrur,created a density plot to analyse the distribution of race demographics for mothers in this study. I filled in the density plot yellow for visibility, and added the mean line to clarify the general density plot. I also added axis titles as well as an informative title to be easier to read. This plot was created with the geomdensity function with aesthetic modifiers that filled in the plot yellow and added the dashed line. Geomvline was the function I used to create the mean line for this plot. I also created team plot two in order to answer our second question. 
+* I, Shreeya Basrur, created a scatterplot to analyse if there is a relationship between gestation period and mother's age. To answer this question, I created a simple linear model of the data I was looking at by first using the formula of a linear model, then creating a data grid of the mother's age data and adding predictions of y values. Finally, I plotted that on the graph of age versus gestation period to confirm a lack of a trend. 
 
 * I, James Burke, wrote the first question (smoking vs premature babies) and its importance in warning mothers of the affect smoking can have on their newborns. I also helped to create and format the Number of Births vs. Number of Cigarettes Smoked Per Day plot. For my individual plot I created a bar chart that compares the proportion of smokers vs non smokers, to they income grouping. I made incomne the x axis and then had separate bars in each income grouping, for peoples smoking status. Having these bars side by side makes it easy to visualize the proportion. I did this using the fill aestetic and by making the smokers variable a factor, then I used position dodge to separate the bars. I also changed the x axis label along with the legend title.
 
